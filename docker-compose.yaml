@@ -1,0 +1,30 @@
+services:
+  postgres_db:
+    container_name: database
+    image: postgres:13-alpine3.17
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=mage
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata:rw
+    ports:
+      - "5432:5432"
+      
+  mage:
+    container_name: mage
+    image: mageai/mageai
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "6789:6789"
+    depends_on:
+      - post_gresdb
+      
+volumes:
+  pg_data:
+    name: pg_data
+
