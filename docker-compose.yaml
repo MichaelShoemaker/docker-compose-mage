@@ -3,9 +3,9 @@ services:
     container_name: database
     image: postgres:13-alpine3.17
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=mage
+      - POSTGRES_USER=${PGUSER}
+      - POSTGRES_PASSWORD=${PGPW}
+      - POSTGRES_DB=${PGDB}
     volumes:
       - pg_data:/var/lib/postgresql/data/pgdata:rw
     ports:
@@ -15,10 +15,8 @@ services:
     container_name: mage
     image: mageai/mageai
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=root
       - GOOGLE_APPLICATION_CREDENTIALS=./google/credentials/google_credentials.json
-      - MAGE_DATABASE_CONNECTION_URL=postgresql+psycopg2://<username>:<password>@postgres_db:5432/<database>
+      - "MAGE_DATABASE_CONNECTION_URL=postgresql+psycopg2://${PGUSER}:${PGPW}@postgres_db:5432/${PGDB}"
     volumes:
       - ./mage_data:/home/src
     ports:
