@@ -1,3 +1,4 @@
+  GNU nano 6.2                                                                                                  docker-compose.yaml                                                                                                           
 services:
   postgres_db:
     container_name: database
@@ -10,7 +11,7 @@ services:
       - pg_data:/var/lib/postgresql/data/pgdata:rw
     ports:
       - "5432:5432"
-      
+
   mage:
     container_name: mage
     image: mageai/mageai
@@ -22,13 +23,13 @@ services:
     ports:
       - "6789:6789"
     depends_on:
-      - post_gresdb
-      
+      - postgres_db
+
 volumes:
   pg_data:
     name: pg_data
 
 networks:
   default:
-    external:
-      name: mage
+    name: mage_demo
+
